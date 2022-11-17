@@ -1,4 +1,11 @@
-## docker build
+## OpenGL付きのROS2環境
+
+## 0. dockerの準備
+NVIDIAのGPUとCUDAドライバ，dockerとNVIDIA Container Toolkitも必要。[NVIDIAのページ(英語)](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)でも説明しているが，"Ubuntu docker nvidia"とかでググれば日本語の解説も出てくる。色々変わってるので極力新しい情報を使う。
+
+WSL2の場合も同様でWindows用のDocker Desktopと，[ここらへん](https://learn.microsoft.com/ja-jp/windows/ai/directml/gpu-cuda-in-wsl)を参考にWSL用CUDAドライバも入れる。あとWSLgも必要なので出来ればWindows11が望ましい。(Windows10でもInsider Previewにしちゃえば使えたが，今どうなってるかは不明)
+
+## 1. docker build
 Dockerfileを置いたディレクトリで
 
 ```bash
@@ -7,16 +14,16 @@ docker build . -t ros2env
 
 でイメージを作成して
 
-## docker run
+## 2. docker run
 
-### OpenGL付きのROS2環境(ホストはLinuxでOpenGLが使える前提)
+### 2.1.1 LinuxでNVIDIAのグラボがある環境
 
 ```bash
 docker run --rm -e DISPLAY=unix$DISPLAY -p 7400-7401:7400-7401 -p 7410-7419:7410-7419 \
 -v /tmp/.X11-unix:/tmp/.X11-unix -v /path_to/dockermount:/mnt --gpus all -it ros2env /bin/bash
 ```
 
-### WSL2+wslg+NVIDIAドライバなROS2環境
+### 2.1.2 Windows (WSL2+wslg+NVIDIAドライバなROS2環境)
 
 ```/mnt/wslg```のマウントはデバイスの共有?
 
@@ -25,7 +32,7 @@ docker run -it --rm -e DISPLAY=$DISPLAY -p 7400-7401:7400-7401 -p 7410-7419:7410
 -v /tmp/.X11-unix:/tmp/.X11-unix -v /mnt/wslg:/mnt/wslg --gpus all ros2env /bin/bash
 ```
 
-### 動作確認
+### 2.2 動作確認
 
 ```bash
 xeyes
@@ -37,7 +44,7 @@ glxgears
 ```
 で歯車が出てきたらOpenGLも成功。
 
-## docker上でGAZEBO
+## 3. docker上でGAZEBO
 
 とりあえずgazebo+turtlebot3を使ってみる
 
