@@ -51,7 +51,11 @@ glxgears
 ```bash
 TURTLEBOT3_MODEL=burger ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
 ```
-でgazeboが開く。別のターミナルを開き
+でgazeboが開く。(初回起動は結構な時間がかかる場合があるので，docker起動時の--rmは付けずにdocker startで以後使う方が良いかも知れない)
+
+gazeboは最初にバナーウィンドウが表示されるのだが，wslgがWindowsのスケーリングと相性が悪いようで100%じゃないと真っ黒な長方形が表示される。
+
+別のターミナルを開き
 ```bash
 docker container ls
 ```
